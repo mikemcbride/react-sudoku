@@ -1,5 +1,32 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+input:focus {
+  outline: none;
+  border: 1px solid #0074d9;
+}
+
+.grid-row {
+  border-left: 2px solid rgba(0,0,0,0.4);
+}
+
+.grid-row-wrap:nth-of-type(1) .grid-row {
+  border-top: 2px solid rgba(0,0,0,0.4);
+}
+
+.grid-row-wrap .grid-row {
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.grid-row-wrap:nth-child(3n+3) .grid-row {
+  border-bottom: 2px solid rgba(0,0,0,0.4);
+}
+
+.grid-cell {
+  border-right: 1px solid rgba(0,0,0,0.2);
+}
+
+.grid-cell:nth-child(3n+3) {
+  border-right: 2px solid rgba(0,0,0,0.4);
+}
+
+.grid-row {
+  flex: 0 1 auto;
 }
