@@ -1,6 +1,7 @@
 {
   "name": "react-sudoku",
   "version": "0.1.0",
+  "homepage": "http://mmcbride1007.github.io/react-sudoku",
   "private": true,
   "devDependencies": {
     "react-scripts": "0.8.5"
