@@ -11,6 +11,7 @@ This takes a fairly naive/brute-force approach to solving the puzzle. Once you l
 
 - When a cell is populated, stop going through cells sequentially and do some context-aware checking. When you populate a cell when doing a real-life puzzle, you don't move on to the next cell, you check to see if that afforded you any chance to solve another cell in that same square, column, or row.
 - Prevent the app from crashing the browser. If it makes a full pass and is not able to reduce the list of possible values on any remaining cell, then the next time it tries to make a pass, it should bail. Otherwise it will just keep running. This shouldn't happen with a solvable puzzle, but human error... that's another story.
+- Add a way to import a puzzle using a file upload API or something of the sorts. Plain text with `x`'s for blank cells and spaces as the separator for parsing?
 
 ## Data Structure
 
