@@ -16,6 +16,7 @@ class Grid extends React.Component {
     this.getCellsInColumn = this.getCellsInColumn.bind(this)
     this.getCellsInSquare = this.getCellsInSquare.bind(this)
     this.getPossibleCellValues = this.getPossibleCellValues.bind(this)
+    this.setInputValue = this.setInputValue.bind(this)
   }
   
   componentDidMount() {
@@ -29,6 +30,7 @@ class Grid extends React.Component {
     while (this.isSolved() === false) {
       this.makeAnotherPass()
     }
+    return
   }
   
   isSolved() {
@@ -69,7 +71,12 @@ class Grid extends React.Component {
       // row is an array of cells
       row.forEach(cell => {
         if (cell.solved === false) {
-          const pvals = this.getPossibleCellValues(cell)
+          cell.possibleValues = this.getPossibleCellValues(cell)
+          if (cell.possibleValues.length === 1) {
+            cell.solved = true
+            cell.value = cell.possibleValues[0]
+            this.setInputValue(cell.row, cell.column, cell.value)
+          }
         }
       })
     })
@@ -83,10 +90,17 @@ class Grid extends React.Component {
     // combine all arrays into an array of the solved values
     // get the diff of that and valueRange
     // something like:
-    // const vals = [...row, ...column, ...square]
-    // const pvals = values.filter(x => !vals.includes(x))
+    // const vals = new Set([...row, ...column, ...square])
+    // const pvals = values.filter(x => !vals.has(x))
     // pvals should be the filtered list of values ([1...9]) with values removed that it found in row/col/square
     // that should get us close.
+    const rowVals = this.getCellsInRow(cell.row).filter(it => it.solved).map(it => it.value)
+    const columnVals = this.getCellsInColumn(cell.column).filter(it => it.solved).map(it => it.value)
+    const squareVals = this.getCellsInSquare(cell).filter(it => it.solved).map(it => it.value)
+    
+    const allVals = new Set([...rowVals, ...columnVals, ...squareVals])
+    const pVals = values.filter(it => allVals.has(it) === false)
+    return pVals
   }
   
   getCellsInRow(row) {
@@ -103,7 +117,7 @@ class Grid extends React.Component {
     let rowz = []
     let cols = []
     
-    if (cell.row > 3) {
+    if (cell.row < 3) {
       rowz = [0,1,2]
     } else if (cell.row < 6) {
       rowz = [3,4,5]
@@ -111,7 +125,7 @@ class Grid extends React.Component {
       rowz = [6,7,8]
     }
     
-    if (cell.column > 3) {
+    if (cell.column < 3) {
       cols = [0,1,2]
     } else if (cell.column < 6) {
       cols = [3,4,5]
@@ -124,6 +138,14 @@ class Grid extends React.Component {
         cells.push(this.rows[row][col])
       })
     })
+    
+    return cells
+  }
+  
+  setInputValue(row, column, val) {
+    const inputRef = `${row}.${column}`
+    const input = this.gridValues[inputRef]
+    input.value = val
   }
   
   render() {
