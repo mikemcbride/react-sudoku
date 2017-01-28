@@ -1,9 +1,10 @@
 import range from './cellRange'
+import values from './valueRange'
 
 const defaultCell = {
   value: null,
   solved: false,
-  possibleValues: []
+  possibleValues: values
 }
 
 function buildRow(index) {

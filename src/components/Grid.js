@@ -1,6 +1,5 @@
 import React from 'react'
 import range from '../cellRange'
-import values from '../valueRange'
 
 class Grid extends React.Component {
   constructor() {
@@ -83,24 +82,16 @@ class Grid extends React.Component {
   }
   
   getPossibleCellValues(cell) {
-    // brain dump here cause i'm going to bed
-    // make calls to each of the following functions (cells in Row/Col/Square)
-    // they all return an array of cells
-    // filter out any unsolved cells from those results (that will include the current cell)
-    // combine all arrays into an array of the solved values
-    // get the diff of that and valueRange
-    // something like:
-    // const vals = new Set([...row, ...column, ...square])
-    // const pvals = values.filter(x => !vals.has(x))
-    // pvals should be the filtered list of values ([1...9]) with values removed that it found in row/col/square
-    // that should get us close.
+    // get an array of values for each cell in the current row, column, and square
     const rowVals = this.getCellsInRow(cell.row).filter(it => it.solved).map(it => it.value)
     const columnVals = this.getCellsInColumn(cell.column).filter(it => it.solved).map(it => it.value)
     const squareVals = this.getCellsInSquare(cell).filter(it => it.solved).map(it => it.value)
     
+    // make a unique list of the above values
     const allVals = new Set([...rowVals, ...columnVals, ...squareVals])
-    const pVals = values.filter(it => allVals.has(it) === false)
-    return pVals
+    
+    // return a filtered list that excludes the solved values from the set above
+    return cell.possibleValues.filter(it => allVals.has(it) === false)
   }
   
   getCellsInRow(row) {
