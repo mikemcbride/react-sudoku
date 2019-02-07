@@ -1,7 +1,7 @@
 react-sudoku
 ============
 
-A sudoku solver written in React. Head over to mmcbride1007.github.io/react-sudoku to play.
+A sudoku solver written in React. Link in description.
 
 ## Strategy
 
